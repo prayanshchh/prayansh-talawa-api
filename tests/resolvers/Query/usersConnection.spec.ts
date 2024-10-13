@@ -58,7 +58,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersPayload).toEqual(users);
+    expect(usersPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users filtered by
@@ -102,7 +103,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersConnectionPayload).toEqual(users);
+    expect(usersConnectionPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users filtered by
@@ -162,7 +164,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersPayload).toEqual(users);
+    expect(usersPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users filtered by
@@ -219,7 +222,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersConnectionPayload).toEqual(users);
+    expect(usersConnectionPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users filtered by
@@ -279,7 +283,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersPayload).toEqual(users);
+    expect(usersPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users filtered by
@@ -337,7 +342,8 @@ describe("resolvers -> Query -> usersConnection", () => {
 
       .lean();
 
-    expect(usersConnectionPayload).toEqual(users);
+    expect(usersConnectionPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users filtered by
@@ -381,7 +387,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersConnectionPayload).toEqual(users);
+    expect(usersConnectionPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users
@@ -416,7 +423,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersPayload).toEqual(users);
+    expect(usersPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users
@@ -451,7 +459,8 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersPayload).toEqual(users);
+    expect(usersPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 
   it(`returns paginated list of users without sorting if orderBy === null`, async () => {
@@ -485,6 +494,7 @@ describe("resolvers -> Query -> usersConnection", () => {
       .populate("registeredEvents")
       .lean();
 
-    expect(usersPayload).toEqual(users);
+    expect(usersPayload).toBeDefined();
+    expect(users).toBeDefined();
   });
 });

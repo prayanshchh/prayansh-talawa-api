@@ -11,6 +11,7 @@ import { deleteUserFromCache } from "../../../src/services/UserCache/deleteUserF
 import type { QueryUserArgs } from "../../../src/types/generatedGraphQLTypes";
 import type { TestUserType } from "../../helpers/userAndOrg";
 import { createTestUserAndOrganization } from "../../helpers/userAndOrg";
+import { decryptEmail } from "../../../src/utilities/encryption";
 
 let MONGOOSE_INSTANCE: typeof mongoose;
 let testUser: TestUserType;
@@ -53,8 +54,13 @@ describe("resolvers -> Query -> user", () => {
       _id: testUser?._id,
     }).lean();
 
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
     expect(userPayload?.user).toEqual({
       ...user,
+      email: decryptEmail(user.email).decrypted,
       organizationsBlockedBy: [],
       image: null,
     });
@@ -86,8 +92,13 @@ describe("resolvers -> Query -> user", () => {
       _id: testUser?._id,
     }).lean();
 
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
     expect(userPayload?.user).toEqual({
       ...user,
+      email: decryptEmail(user.email).decrypted,
       organizationsBlockedBy: [],
       image: user?.image ? `${BASE_URL}${user.image}` : null,
     });
