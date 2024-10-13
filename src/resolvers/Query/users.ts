@@ -3,6 +3,7 @@ import { errors, requestContext } from "../../libraries";
 import type { InterfaceAppUserProfile, InterfaceUser } from "../../models";
 import { AppUserProfile, User } from "../../models";
 import type { QueryResolvers } from "../../types/generatedGraphQLTypes";
+import { decryptEmail } from "../../utilities/encryption";
 import { getSort } from "./helperFunctions/getSort";
 import { getWhere } from "./helperFunctions/getWhere";
 
@@ -61,6 +62,7 @@ export const users: QueryResolvers["users"] = async (
 
   return await Promise.all(
     users.map(async (user) => {
+      const { decrypted } = decryptEmail(user.email);
       const isSuperAdmin = currentUserAppProfile.isSuperAdmin;
       const appUserProfile = await AppUserProfile.findOne({ userId: user._id })
         .populate("createdOrganizations")
@@ -71,6 +73,7 @@ export const users: QueryResolvers["users"] = async (
       return {
         user: {
           ...user,
+          email: decrypted,
           image: user.image ? `${context.apiRootUrl}${user.image}` : null,
           organizationsBlockedBy:
             isSuperAdmin && currentUser._id !== user._id
