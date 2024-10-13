@@ -12,6 +12,7 @@ import {
   User,
 } from "../models";
 import { RecurrenceRule } from "../models/RecurrenceRule";
+import { encryptEmail } from "./encryption";
 
 interface InterfaceArgs {
   items?: string;
@@ -112,6 +113,10 @@ async function insertCollections(collections: string[]): Promise<void> {
 
       switch (collection) {
         case "users":
+          for (const user of docs) {
+            const encryptedEmail = encryptEmail(user.email as string);
+            user.email = encryptedEmail;
+          }
           await User.insertMany(docs);
           break;
         case "organizations":

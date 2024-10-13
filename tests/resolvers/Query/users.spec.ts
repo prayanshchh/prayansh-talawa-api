@@ -10,6 +10,7 @@ import { users as usersResolver } from "../../../src/resolvers/Query/users";
 import type { QueryUsersArgs } from "../../../src/types/generatedGraphQLTypes";
 import { connect, disconnect } from "../../helpers/db";
 import { createTestUser } from "../../helpers/user";
+import { decryptEmail, encryptEmail } from "../../../src/utilities/encryption";
 
 let testUsers: (InterfaceUser & Document<unknown, unknown, InterfaceUser>)[];
 
@@ -83,31 +84,31 @@ describe("resolvers -> Query -> users", () => {
     beforeAll(async () => {
       testUsers = await User.insertMany([
         {
-          email: `email${nanoid().toLowerCase()}@gmail.com`,
+          email: encryptEmail(`email${nanoid().toLowerCase()}@gmail.com`),
           password: "password",
           firstName: `firstName${nanoid()}`,
           lastName: `lastName${nanoid()}`,
         },
         {
-          email: `email${nanoid().toLowerCase()}@gmail.com`,
+          email: encryptEmail(`email${nanoid().toLowerCase()}@gmail.com`),
           password: "password",
           firstName: `firstName${nanoid()}`,
           lastName: `lastName${nanoid()}`,
         },
         {
-          email: `email${nanoid().toLowerCase()}@gmail.com`,
+          email: encryptEmail(`email${nanoid().toLowerCase()}@gmail.com`),
           password: "password",
           firstName: `firstName${nanoid()}`,
           lastName: `lastName${nanoid()}`,
         },
         {
-          email: `email${nanoid().toLowerCase()}@gmail.com`,
+          email: encryptEmail(`email${nanoid().toLowerCase()}@gmail.com`),
           password: "password",
           firstName: `firstName${nanoid()}`,
           lastName: `lastName${nanoid()}`,
         },
         {
-          email: `email${nanoid().toLowerCase()}@gmail.com`,
+          email: encryptEmail(`email${nanoid().toLowerCase()}@gmail.com`),
           password: "password",
           firstName: `firstName${nanoid()}`,
           lastName: `lastName${nanoid()}`,
@@ -247,6 +248,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: null,
       }));
@@ -282,6 +284,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         image: null,
       }));
 
@@ -331,6 +334,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -391,6 +395,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -449,6 +454,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -508,6 +514,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -572,6 +579,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -623,6 +631,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -662,6 +671,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -699,6 +709,7 @@ describe("resolvers -> Query -> users", () => {
 
       users = users.map((user) => ({
         ...user,
+        email: decryptEmail(user.email).decrypted,
         organizationsBlockedBy: [],
         image: user.image ? `${BASE_URL}${user.image}` : null,
       }));
@@ -747,6 +758,7 @@ describe("resolvers -> Query -> users", () => {
 
     users = users.map((user) => ({
       ...user,
+      email: decryptEmail(user.email).decrypted,
       organizationsBlockedBy: [],
       image: user.image ? `${context.apiRootUrl}${user.image}` : null,
     }));

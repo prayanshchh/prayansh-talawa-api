@@ -14,6 +14,7 @@ import {
   checkConnection,
   checkExistingMongoDB,
 } from "./src/setup/MongoDB";
+import crypto from "crypto";
 import { askToKeepValues } from "./src/setup/askToKeepValues";
 import { getNodeEnvironment } from "./src/setup/getNodeEnvironment";
 import { isValidEmail } from "./src/setup/isValidEmail";
@@ -369,6 +370,35 @@ export async function redisConfiguration(): Promise<void> {
   } catch (err) {
     console.error(err);
     abort();
+  }
+}
+
+/**
+ * The code checks if the environment variable 'ENCRYPTION_KEY' is already set.
+ * If 'ENCRYPTION_KEY' is set, it retrieves its value and uses it as the encryption key.
+ * If 'ENCRYPTION_KEY' is not set, a random 256-bit (32-byte) key is generated using
+ * the crypto library and set as the 'ENCRYPTION_KEY' environment variable.
+ * @remarks
+ * This ensures that a consistent encryption key is used if already set, or generates
+ * and sets a new key if one doesn't exist. The 'ENCRYPTION_KEY' is intended to be used
+ * for secure operations such as email encryption and decryption.
+ */
+
+export async function setEncryptionKey(): Promise<void> {
+  try {
+    if (process.env.ENCRYPTION_KEY) {
+      console.log("\n Encryption Key already present.");
+    } else {
+      const encryptionKey = await crypto.randomBytes(32).toString("hex");
+
+      process.env.ENCRYPTION_KEY = encryptionKey;
+
+      updateEnvVariable({ ENCRYPTION_KEY: encryptionKey });
+
+      console.log("\n Encryption key set successfully.");
+    }
+  } catch (err) {
+    console.error("An error occured:", err);
   }
 }
 
@@ -954,6 +984,8 @@ async function main(): Promise<void> {
   ]);
 
   await setImageUploadSize(imageSizeLimit * 1000);
+
+  await setEncryptionKey();
 
   if (!isDockerInstallation) {
     if (!process.env.MONGO_DB_URL) {

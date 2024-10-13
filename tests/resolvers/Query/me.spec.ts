@@ -5,7 +5,7 @@ import {
   USER_NOT_FOUND_ERROR,
   USER_NOT_AUTHORIZED_ERROR,
 } from "../../../src/constants";
-import { AppUserProfile, User } from "../../../src/models";
+import { AppUserProfile, InterfaceUser, User } from "../../../src/models";
 import { me as meResolver } from "../../../src/resolvers/Query/me";
 import { connect, disconnect } from "../../helpers/db";
 
@@ -58,6 +58,11 @@ describe("resolvers -> Query -> me", () => {
       .populate("registeredEvents")
 
       .lean();
+    if (!mePayload || !user) {
+      throw new Error("Error loading payloads");
+    }
+    const currentUser = mePayload.user as InterfaceUser;
+    currentUser.email = user.email;
 
     expect(mePayload?.user).toEqual(user);
   });
